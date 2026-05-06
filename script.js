@@ -74,8 +74,13 @@ function openProduct(data) {
     }
 
     document.getElementById('btnWhatsapp').href = `https://wa.me/TUNUMERO?text=Consulta: ${p.nombre}`;
+    // ... dentro de openProduct ...
     document.getElementById('productModal').style.display = 'block';
-    setTimeout(initZoom, 500); // Dar tiempo a que cargue la imagen
+
+    // Esperamos un poquito a que la imagen se acomode en el modal
+    setTimeout(() => {
+        setupZoom(); 
+    }, 300);
 }
 
 function initZoom() {

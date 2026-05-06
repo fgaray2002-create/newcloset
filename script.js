@@ -1,5 +1,5 @@
 const SHEET_ID = '1-K--QwKKTzi5nQRQjKQyP88YfDpJBz4ShFMfz_gM0Fk';
-const CSV_URL = 'https://docs.google.com/spreadsheets/d/${1-K--QwKKTzi5nQRQjKQyP88YfDpJBz4ShFMfz_gM0Fk}/export?format=csv&gid=0';
+const CSV_URL = `https://docs.google.com/spreadsheets/d/${1-K--QwKKTzi5nQRQjKQyP88YfDpJBz4ShFMfz_gM0Fk}/export?format=csv&gid=0`;
 
 async function loadInventory() {
     const response = await fetch(CSV_URL);

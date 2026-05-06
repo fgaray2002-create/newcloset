@@ -1,17 +1,18 @@
-// 1. CONFIGURACIÓN DEL CATÁLOGO
-const SHEET_ID = '1-K--QwKKTzi5nQRQjKQyP88YfDpJBz4ShFMfz_gM0Fk'; // <--- PEGA TU ID ACÁ ENTRE LAS COMILLAS
+// =========================================
+// CONFIGURACIÓN DEL CATÁLOGO - BOUTIQUE ELEGANCE
+// =========================================
 
-// Usamos concatenación simple (+) para evitar el error de "template expression"
+const SHEET_ID = '1-K--QwKKTzi5nQRQjKQyP88YfDpJBz4ShFMfz_gM0Fk'; 
 const CSV_URL = 'https://docs.google.com/spreadsheets/d/' + SHEET_ID + '/export?format=csv';
 
 /**
- * FUNCIÓN PARA CARGAR LOS VESTIDOS
+ * 1. CARGA DE PRODUCTOS DESDE GOOGLE SHEETS
  */
 async function loadCatalog() {
     const gallery = document.getElementById('gallery');
     try {
         const response = await fetch(CSV_URL);
-        if (!response.ok) throw new Error("Error de conexión");
+        if (!response.ok) throw new Error("No se pudo conectar con la planilla");
         
         const data = await response.text();
         const rows = data.split('\n').slice(1); 
@@ -37,12 +38,13 @@ async function loadCatalog() {
             gallery.appendChild(card);
         });
     } catch (error) {
-        gallery.innerHTML = '<p style="color:#D4AF37; text-align:center;">Error cargando catálogo. Revisa si la planilla está publicada en la web.</p>';
+        gallery.innerHTML = '<p style="color:#D4AF37; text-align:center; padding: 50px;">Error cargando catálogo. Asegurate de que la planilla esté "Publicada en la Web".</p>';
+        console.error(error);
     }
 }
 
 /**
- * FUNCIÓN DE LA LUPA (ZOOM)
+ * 2. LÓGICA DE LA LUPA (ZOOM)
  */
 function setupZoom() {
     const img = document.getElementById('modalImg');
@@ -86,7 +88,7 @@ function setupZoom() {
 }
 
 /**
- * APERTURA Y CIERRE DEL MODAL
+ * 3. MODAL (ABRIR Y CERRAR)
  */
 function openModal(name, price, imgSrc, sizes) {
     document.getElementById('modalName').innerText = name;
@@ -94,9 +96,9 @@ function openModal(name, price, imgSrc, sizes) {
     document.getElementById('modalImg').src = imgSrc;
     document.getElementById('modalSizes').innerText = sizes;
     
-    // Configura tu WhatsApp (ej: 549...)
-    const msg = encodeURIComponent("Hola, consulto por: " + name);
-    document.getElementById('btnWhatsapp').href = "https://wa.me/TUNUMEROAQUI?text=" + msg;
+    // Cambiá el número por el tuyo (con código de país sin el +)
+    const msg = encodeURIComponent("Hola Boutique Elegance, consulto por: " + name);
+    document.getElementById('btnWhatsapp').href = "https://wa.me/5491100000000?text=" + msg;
 
     document.getElementById('productModal').style.display = 'block';
     setTimeout(setupZoom, 150);
@@ -106,7 +108,7 @@ function closeModal() {
     document.getElementById('productModal').style.display = 'none';
 }
 
-// Iniciar procesos
+// Inicialización
 window.onload = loadCatalog;
 window.onclick = function(e) {
     if (e.target == document.getElementById('productModal')) closeModal();

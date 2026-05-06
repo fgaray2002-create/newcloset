@@ -2,248 +2,41 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Catálogo Exclusivo | Pedidos</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --dark-bg: #0a0a0a;
-            --gold: #c5a059;
-            --gold-light: #e2c275;
-            --text-light: #ffffff;
-            --text-gray: #a0a0a0;
-        }
-
-        body {
-            margin: 0;
-            font-family: 'Montserrat', sans-serif;
-            background-color: var(--dark-bg);
-            color: var(--text-light);
-            line-height: 1.6;
-        }
-
-        /* Encabezado Sofisticado */
-        header {
-            padding: 60px 20px;
-            text-align: center;
-            border-bottom: 1px solid var(--gold);
-            background: linear-gradient(to bottom, #1a1a1a, #0a0a0a);
-        }
-
-        h1 {
-            font-family: 'Cinzel', serif;
-            color: var(--gold);
-            letter-spacing: 5px;
-            margin: 0;
-            font-size: 2.5rem;
-        }
-
-        .subtitle {
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            color: var(--text-gray);
-            margin-top: 10px;
-        }
-
-        /* Contenedor de Productos */
-        .container {
-            max-width: 1200px;
-            margin: 40px auto;
-            padding: 0 20px;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 30px;
-        }
-
-        /* Tarjeta de Producto */
-        .card {
-            background: #111;
-            border: 1px solid #222;
-            padding: 20px;
-            transition: transform 0.3s ease, border-color 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-            border-color: var(--gold);
-        }
-
-        .card img {
-            width: 100%;
-            height: 350px;
-            object-fit: cover;
-            filter: grayscale(20%);
-        }
-
-        .card-info {
-            padding: 15px 0;
-        }
-
-        .card-title {
-            font-family: 'Cinzel', serif;
-            font-size: 1.2rem;
-            color: var(--gold-light);
-            margin: 10px 0;
-        }
-
-        .card-price {
-            font-weight: 600;
-            font-size: 1.1rem;
-            margin-bottom: 15px;
-        }
-
-        /* Botón de Pedido */
-        .btn-order {
-            display: block;
-            width: 100%;
-            padding: 12px;
-            background: transparent;
-            color: var(--gold);
-            border: 1px solid var(--gold);
-            text-align: center;
-            text-decoration: none;
-            font-weight: 600;
-            text-transform: uppercase;
-            font-size: 0.8rem;
-            letter-spacing: 1px;
-            transition: all 0.3s ease;
-        }
-
-        .btn-order:hover {
-            background: var(--gold);
-            color: var(--dark-bg);
-        }
-
-        footer {
-            text-align: center;
-            padding: 40px;
-            color: var(--text-gray);
-            font-size: 0.8rem;
-            border-top: 1px solid #222;
-        }
-
-        /* Badge de Talles */
-        .size-tag {
-            font-size: 0.7rem;
-            color: var(--text-gray);
-            margin-bottom: 10px;
-            display: block;
-        }
-    </style>
+    <title>Boutique Elegance - Pedidos por Drive</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
-    <header>
-        <h1>ALTA COSTURA</h1>
-        <div class="subtitle">Catálogo por Pedido</div>
-    </header>
+    <div class="header">
+        <h1>Boutique Elegance</h1>
+        <p>Alta Costura · Pedidos Exclusivos</p>
+    </div>
 
-    <div class="container" id="catalog">
-        <!-- Ejemplo de Producto: Vestido Roma -->
-        <div class="card">
-            <img src="https://drive.google.com/file/d/1v1IYKqybtj-Cxry1VD_ORyOtodjPf0Xw/view?usp=sharing" alt="Vestido Roma">
-            <div class="card-info">
-                <span class="size-tag">Talles: 36 al 40</span>
-                <h2 class="card-title">Vestido Roma</h2>
-                <p class="card-price">$24.000</p>
-                <a href="https://wa.me/1131859798?text=Hola! Quiero encargar el Vestido Roma" class="btn-order">Encargar por WhatsApp</a>
+    <div class="container" id="gallery">
+        <!-- Los productos se cargan aquí desde el Drive -->
+    </div>
+
+    <!-- Modal para Detalle de Producto -->
+    <div id="productModal" class="modal">
+        <div class="modal-content">
+            <div class="zoom-container" id="zoomArea">
+                <img id="modalImg" src="" alt="">
             </div>
-        </div>
-
-        <!-- Ejemplo de Producto: Vestido Cey -->
-        <div class="card">
-            <img src="[https://lh3.googleusercontent.com/u/0/d/1-tBIxAhjygkCFPOGEv6m7XHFw8xvubKy](https://lh3.googleusercontent.com/u/0/d/1-tBIxAhjygkCFPOGEv6m7XHFw8xvubKy)" alt="Vestido Cey">
-            <div class="card-info">
-                <span class="size-tag">Talle: M</span>
-                <h2 class="card-title">Vestido Largo Cey</h2>
-                <p class="card-price">$29.000</p>
-                <a href="https://wa.me/1131859798?text=Hola! Quiero encargar el Vestido Largo Cey" class="btn-order">Encargar por WhatsApp</a>
-            </div>
-        </div>
-
-        <!-- Ejemplo de Producto: Maxisolero Lino -->
-        <div class="card">
-            <img src="https://drive.google.com/file/d/1BdxkM0gCD8mi9ZHCXutLq1MddDmCmGM-/view?usp=drive_link" alt="Maxisolero Lino">
-            <div class="card-info">
-                <span class="size-tag">Talle Único: 36 al 46</span>
-                <h2 class="card-title">Maxisolero Lino</h2>
-                <p class="card-price">$26.000</p>
-                <a href="https://wa.me/1131859798?text=Hola! Quiero encargar el Maxisolero Lino" class="btn-order">Encargar por WhatsApp</a>
+            <div class="details-panel">
+                <span onclick="document.getElementById('productModal').style.display='none'" style="cursor:pointer; color:var(--gold); float:right;">CERRAR X</span>
+                <h2 id="modalName" style="color:var(--gold)"></h2>
+                <p id="modalPrice" class="price"></p>
+                <hr style="border: 0.5px solid #333;">
+                <p><strong>Colores disponibles:</strong> <span id="modalColors"></span></p>
+                <p><strong>Talles:</strong> <span id="modalSizes"></span></p>
+                <button style="background:var(--gold); color:black; padding:15px 30px; border:none; cursor:pointer; font-weight:bold; margin-top:20px;">
+                    CONSULTAR POR WHATSAPP
+                </button>
             </div>
         </div>
     </div>
 
-    <footer>
-        &copy; 2026 - Franco Garay | Todos los derechos reservados.
-    </footer>
-
+    <script src="script.js"></script>
 </body>
-import pandas as pd
-
-# 1. Cargar tus datos (Asegurate de descargar tu Drive como 'productos.csv')
-df = pd.read_csv('productos.csv') 
-
-# 2. Plantilla Base (HTML con el estilo dorado y sofisticado)
-html_top = """
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>Catálogo Exclusivo | Franco Garay</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@300;600&display=swap" rel="stylesheet">
-    <style>
-        :root { --gold: #c5a059; --dark: #0a0a0a; }
-        body { background: var(--dark); color: white; font-family: 'Montserrat', sans-serif; margin: 0; }
-        header { padding: 50px; text-align: center; border-bottom: 1px solid var(--gold); }
-        h1 { font-family: 'Cinzel', serif; color: var(--gold); letter-spacing: 4px; }
-        .container { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; padding: 40px; }
-        .card { border: 1px solid #222; padding: 15px; transition: 0.3s; background: #111; text-align: center; }
-        .card:hover { border-color: var(--gold); transform: translateY(-5px); }
-        .card img { width: 100%; height: 400px; object-fit: cover; margin-bottom: 15px; }
-        .price { color: var(--gold); font-weight: bold; font-size: 1.2rem; }
-        .btn { display: block; border: 1px solid var(--gold); color: var(--gold); padding: 10px; text-decoration: none; margin-top: 15px; text-transform: uppercase; font-size: 0.8rem; }
-        .btn:hover { background: var(--gold); color: black; }
-    </style>
-</head>
-<body>
-    <header><h1>ALTA COSTURA</h1><p>Venta por Pedido</p></header>
-    <div class="container">
-"""
-
-html_bottom = """
-    </div>
-    <footer style="text-align:center; padding:50px; color:#555;">&copy; 2026 Franco Garay</footer>
-</body>
-</html>
-"""
-
-# 3. Generar las tarjetas de productos dinámicamente
-items_html = ""
-for index, row in df.iterrows():
-    # Extraemos el ID de la imagen del link de Drive (ajusta el nombre de la columna según tu Excel)
-    drive_link = str(row['Link Imagen'])
-    # Limpieza básica para obtener el ID
-    image_id = drive_link.split('/d/')[1].split('/')[0] if '/d/' in drive_link else ""
-    
-    # Construcción de la tarjeta
-    items_html += f"""
-    <div class="card">
-        <img src="https://lh3.googleusercontent.com/d/{image_id}" alt="{row['Producto']}">
-        <h3>{row['Producto']}</h3>
-        <p style="font-size: 0.8rem; color: #aaa;">Talles: {row['Talles']}</p>
-        <p class="price">${row['Precio']}</p>
-        <a href="https://wa.me/54911XXXXXXXX?text=Hola! Quiero encargar el modelo: {row['Producto']}" class="btn">Pedir por WhatsApp</a>
-    </div>
-    """
-
-# 4. Guardar el archivo final
-with open("index.html", "w", encoding="utf-8") as f:
-    f.write(html_top + items_html + html_bottom)
-
-print("¡Página generada con éxito como index.html!")
-
-    
 </html>

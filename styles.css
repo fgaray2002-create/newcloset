@@ -1,69 +1,17 @@
 /* =========================================
-   CONFIGURACIÓN GENERAL
+   ESTILOS FINALES - MODAL Y LUPA
    ========================================= */
-:root {
-    --gold: #D4AF37;
-    --dark: #0a0a0a;
-    --white: #ffffff;
-}
 
-body {
-    background-color: var(--dark);
-    color: var(--white);
-    font-family: 'Raleway', sans-serif;
-    margin: 0;
-}
-
-/* GALERÍA PRINCIPAL */
-.container {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 30px;
-    padding: 40px;
-}
-
-.product-card {
-    border: 1px solid #222;
-    padding: 15px;
-    text-align: center;
-    transition: 0.3s;
-    background: #050505;
-}
-
-.product-card:hover {
-    border-color: var(--gold);
-}
-
-.product-card img {
-    width: 100%;
-    height: 350px;
-    object-fit: cover;
-    cursor: pointer;
-}
-
-/* =========================================
-   MODAL ESTRUCTURADO (DOS COLUMNAS FIJAS)
-   ========================================= */
-.modal {
-    display: none;
-    position: fixed;
-    z-index: 1000;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0,0,0,0.95);
-}
-
+/* Aseguramos que el modal no se rompa */
 .modal-content {
-    background: var(--dark);
+    background: #0a0a0a;
     margin: 3vh auto;
     width: 95%;
     max-width: 1100px;
     height: 85vh;
-    border: 1px solid var(--gold);
+    border: 1px solid #D4AF37;
     position: relative;
-    overflow: hidden;
+    overflow: hidden; /* Esto evita que el zoom se salga del cuadro */
 }
 
 .modal-grid {
@@ -72,7 +20,7 @@ body {
     width: 100%;
 }
 
-/* --- COLUMNA IZQUIERDA: IMAGEN --- */
+/* COLUMNA IZQUIERDA: IMAGEN */
 .image-section {
     width: 60%;
     height: 100%;
@@ -92,7 +40,6 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    cursor: crosshair;
 }
 
 .zoom-wrapper img {
@@ -101,96 +48,60 @@ body {
     object-fit: contain;
 }
 
+/* La lente que se mueve sobre la foto */
 .zoom-lens {
     position: absolute;
-    border: 1px solid var(--gold);
+    border: 1px solid #D4AF37;
     width: 100px;
     height: 100px;
     background: rgba(212, 175, 55, 0.1);
-    z-index: 100;
-    display: none;
-    pointer-events: none;
+    z-index: 10;
+    cursor: crosshair;
+    pointer-events: none; /* Crucial para que no interfiera con el mouse */
 }
 
-/* --- COLUMNA DERECHA: INFO Y ZOOM --- */
+/* COLUMNA DERECHA: INFO Y ZOOM ABAJO */
 .details-panel {
     width: 40%;
     height: 100%;
     display: flex;
-    flex-direction: column;
+    flex-direction: column; /* Alinea elementos uno abajo del otro */
     padding: 30px;
-    background: var(--dark);
+    background: #0a0a0a;
     border-left: 1px solid #222;
     box-sizing: border-box;
+    position: relative;
 }
 
-/* Contenedor de textos (Nombre, Precio, Botón) */
+/* Contenedor para el Nombre, Precio, etc. */
 .product-info-box {
-    flex: 1; /* Ocupa el espacio superior disponible */
-    display: flex;
-    flex-direction: column;
+    width: 100%;
+    margin-bottom: 20px;
 }
 
-.price-detail {
-    color: var(--gold);
-    font-size: 2.2rem;
-    font-family: 'Playfair Display', serif;
-    margin: 10px 0;
-}
-
-.color-selector {
-    display: flex;
-    gap: 10px;
-    margin: 10px 0;
-    flex-wrap: wrap;
-}
-
-.color-btn {
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    border: 1px solid #444;
-    cursor: pointer;
-}
-
-.buy-btn {
-    background: var(--gold);
-    color: #000;
-    padding: 15px;
-    text-align: center;
-    text-decoration: none;
-    font-weight: bold;
-    margin-top: 15px;
-    transition: 0.3s;
-}
-
-/* CUADRO DE ZOOM: FIJO ABAJO */
+/* CUADRO DE ZOOM: FIJO AL FINAL DEL PANEL */
 .zoom-result {
     width: 100%;
-    height: 220px; /* Tamaño controlado para que no tape nada */
-    border: 2px solid var(--gold);
+    flex-grow: 1; /* Hace que use todo el espacio restante abajo */
+    max-height: 300px; /* Limita el tamaño para que no sea excesivo */
+    border: 2px solid #D4AF37;
     background-color: #000;
     background-repeat: no-repeat;
-    display: none; /* Se activa por JS */
-    margin-top: 20px;
-    box-shadow: 0 -5px 15px rgba(0,0,0,0.5);
+    margin-top: auto; /* Empuja el cuadro hacia el fondo */
+    display: none; /* Se activa con JS */
+    z-index: 5;
+    position: relative !important; /* IMPORTANTE: Esto anula cualquier 'absolute' que meta el JS */
+    top: 0 !important; /* Anula movimientos raros */
+    left: 0 !important;
 }
 
-/* BOTÓN CERRAR */
+/* Botón de cierre */
 .close-btn {
     position: absolute;
     right: 20px;
     top: 10px;
     font-size: 40px;
-    color: var(--gold);
+    color: #D4AF37;
     cursor: pointer;
-    z-index: 1100;
-}
-
-/* RESPONSIVE */
-@media (max-width: 850px) {
-    .modal-grid { flex-direction: column; }
-    .modal-content { height: 95vh; overflow-y: auto; }
-    .image-section, .details-panel { width: 100%; height: auto; }
-    .zoom-result { display: none !important; }
+    z-index: 100;
 }

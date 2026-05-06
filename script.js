@@ -1,22 +1,24 @@
-// CONFIGURACIÓN DE DATOS
-// Reemplaza esto con el ID largo de tu hoja de Google Sheets
-const SHEET_ID = 'TU_ID_DE_GOOGLE_SHEETS_AQUI'; 
-const CSV_URL = `https://docs.google.com/spreadsheets/d/${1-K--QwKKTzi5nQRQjKQyP88YfDpJBz4ShFMfz_gM0Fk}/export?format=csv`;
+// 1. CONFIGURACIÓN: Solo pegá el ID entre las comillas simples
+const SHEET_ID = '1abc1234567890xyz'; // <--- CAMBIÁ ESTO POR TU ID REAL
+
+// Esta forma es más segura y no usa las llaves que causan el error de "Template Expression"
+const CSV_URL = 'https://docs.google.com/spreadsheets/d/' + SHEET_ID + '/export?format=csv';
 
 /**
- * 1. CARGA DEL CATÁLOGO DESDE GOOGLE SHEETS
+ * CARGA DEL CATÁLOGO
  */
 async function loadCatalog() {
+    const gallery = document.getElementById('gallery');
     try {
         const response = await fetch(CSV_URL);
-        const data = await response.text();
-        const rows = data.split('\n').slice(1); // Ignoramos la primera fila (títulos)
-        const gallery = document.getElementById('gallery');
+        if (!response.ok) throw new Error("No se pudo conectar con la planilla. ¿Está publicada en la web?");
         
-        gallery.innerHTML = ''; // Limpiamos antes de cargar
+        const data = await response.text();
+        const rows = data.split('\n').slice(1); 
+        
+        gallery.innerHTML = ''; 
 
         rows.forEach(row => {
-            // Dividimos por coma (ajustar a ';' si tu Excel usa punto y coma)
             const columns = row.split(','); 
             if (columns.length < 3) return;
 
@@ -25,24 +27,23 @@ async function loadCatalog() {
             const imgUrl = columns[2].trim();
             const sizes = columns[3] ? columns[3].trim() : 'Consultar talles';
 
-            // Creamos la tarjeta del vestido
             const card = document.createElement('div');
             card.className = 'product-card';
             card.onclick = () => openModal(name, price, imgUrl, sizes);
             card.innerHTML = `
-                <img src="${imgUrl}" alt="${name}">
+                <img src="${imgUrl}" alt="${name}" onerror="this.src='https://via.placeholder.com/400x600?text=Imagen+No+Encontrada'">
                 <h3>${name}</h3>
                 <p>${price}</p>
             `;
             gallery.appendChild(card);
         });
     } catch (error) {
-        console.error("Error al conectar con el catálogo:", error);
+        gallery.innerHTML = `<p style="color:#D4AF37; text-align:center; padding: 50px;">Error: ${error.message}</p>`;
     }
 }
 
 /**
- * 2. LÓGICA DE LA LUPA (ZOOM)
+ * LÓGICA DEL MODAL Y LUPA (ZOOM)
  */
 function setupZoom() {
     const img = document.getElementById('modalImg');
@@ -57,15 +58,12 @@ function setupZoom() {
         lens.style.display = "block";
         result.style.display = "block";
 
-        // Coordenadas relativas a la imagen
         let x = e.clientX - rect.left;
         let y = e.clientY - rect.top;
 
-        // Centrar la lente en el puntero
         x = x - (lens.offsetWidth / 2);
         y = y - (lens.offsetHeight / 2);
 
-        // Evitar que la lente se salga de los bordes
         if (x > img.width - lens.offsetWidth) x = img.width - lens.offsetWidth;
         if (x < 0) x = 0;
         if (y > img.height - lens.offsetHeight) y = img.height - lens.offsetHeight;
@@ -74,11 +72,10 @@ function setupZoom() {
         lens.style.left = x + "px";
         lens.style.top = y + "px";
 
-        // Cálculo de la potencia del zoom
         const cx = result.offsetWidth / lens.offsetWidth;
         const cy = result.offsetHeight / lens.offsetHeight;
 
-        result.style.backgroundImage = `url('${img.src}')`;
+        result.style.backgroundImage = "url('" + img.src + "')";
         result.style.backgroundSize = (img.width * cx) + "px " + (img.height * cy) + "px";
         result.style.backgroundPosition = "-" + (x * cx) + "px -" + (y * cy) + "px";
     };
@@ -89,22 +86,17 @@ function setupZoom() {
     };
 }
 
-/**
- * 3. FUNCIONES DEL MODAL
- */
 function openModal(name, price, imgSrc, sizes) {
     document.getElementById('modalName').innerText = name;
     document.getElementById('modalPrice').innerText = price;
     document.getElementById('modalImg').src = imgSrc;
     document.getElementById('modalSizes').innerText = sizes;
     
-    // Configuramos el link de WhatsApp automáticamente
-    const mensaje = encodeURIComponent(`Hola Boutique Elegance, me interesa el vestido: ${name}`);
-    document.getElementById('btnWhatsapp').href = `https://wa.me/TUNUMEROAQUI?text=${mensaje}`;
+    // Cambiá el número por el tuyo (con código de país, ej: 549...)
+    const mensaje = encodeURIComponent("Hola, quiero consultar por el vestido: " + name);
+    document.getElementById('btnWhatsapp').href = "https://wa.me/5491100000000?text=" + mensaje;
 
     document.getElementById('productModal').style.display = 'block';
-    
-    // Delay de 150ms para que la imagen cargue y el zoom calcule bien
     setTimeout(setupZoom, 150);
 }
 
@@ -112,10 +104,7 @@ function closeModal() {
     document.getElementById('productModal').style.display = 'none';
 }
 
-// Iniciar catálogo al cargar la página
 window.onload = loadCatalog;
-
-// Cerrar al hacer click fuera del cuadro
 window.onclick = (e) => {
     if (e.target == document.getElementById('productModal')) closeModal();
 };

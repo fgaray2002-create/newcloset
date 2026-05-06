@@ -3,32 +3,54 @@ body { background: var(--dark); color: var(--white); font-family: 'Raleway', san
 
 /* Galería Principal */
 .container { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 30px; padding: 40px; }
-.product-card { border: 1px solid #222; padding: 10px; text-align: center; transition: 0.3s; }
+.product-card { border: 1px solid #222; padding: 15px; text-align: center; transition: 0.3s; position: relative; }
+.product-card:hover { border-color: var(--gold); }
 .product-card img { width: 100%; height: 350px; object-fit: cover; cursor: pointer; }
 
-/* Modal y Grid */
-.modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); overflow-y: auto; }
-.modal-content { background: var(--dark); margin: 2% auto; width: 90%; max-width: 1100px; padding: 40px; border: 1px solid var(--gold); position: relative; }
-.modal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
+/* Modal Estructurado */
+.modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); }
+.modal-content { 
+    background: var(--dark); margin: 2vh auto; width: 95%; max-width: 1100px; 
+    height: 90vh; border: 1px solid var(--gold); position: relative; overflow: hidden; 
+}
+.modal-grid { display: grid; grid-template-columns: 1.2fr 0.8fr; height: 100%; }
 
-/* Sistema de Zoom */
-.zoom-wrapper { position: relative; width: 100%; height: 500px; border: 1px solid #333; overflow: hidden; }
-.zoom-wrapper img { width: 100%; height: 100%; object-fit: contain; }
-.zoom-lens { position: absolute; border: 1px solid var(--gold); width: 100px; height: 100px; cursor: crosshair; display: none; background: rgba(212, 175, 55, 0.1); }
-.zoom-result { 
-    position: absolute; width: 100%; height: 300px; 
-    border: 1px solid var(--gold); background-repeat: no-repeat; 
-    display: none; z-index: 10; background-color: var(--dark);
-    top: 0; left: 0;
+/* Sección Imagen (Izquierda) */
+.image-section { 
+    position: relative; background: #000; display: flex; 
+    align-items: center; justify-content: center; overflow: hidden; 
+}
+.zoom-wrapper { position: relative; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; }
+.zoom-wrapper img { max-width: 90%; max-height: 90%; object-fit: contain; }
+
+/* Lupa */
+.zoom-lens { 
+    position: absolute; border: 1px solid var(--gold); width: 120px; height: 120px; 
+    cursor: crosshair; display: none; background: rgba(212, 175, 55, 0.1); 
 }
 
-/* Detalles */
-.details-panel { position: relative; display: flex; flex-direction: column; }
-.price-detail { color: var(--gold); font-size: 2rem; margin: 10px 0; font-family: 'Playfair Display'; }
-.color-selector { display: flex; gap: 12px; margin-top: 10px; flex-wrap: wrap; }
-.color-btn { width: 30px; height: 30px; border-radius: 50%; border: 2px solid #444; cursor: pointer; transition: 0.2s; }
-.color-btn:hover { transform: scale(1.1); border-color: var(--gold); }
-.buy-btn { background: var(--gold); color: black; padding: 15px; text-align: center; text-decoration: none; font-weight: bold; margin-top: auto; }
+/* Sección Detalles (Derecha) */
+.details-panel { 
+    padding: 40px; display: flex; flex-direction: column; 
+    border-left: 1px solid #222; position: relative; background: var(--dark); 
+}
+.zoom-result { 
+    position: absolute; top: 0; left: 0; width: 100%; height: 40%; 
+    border-bottom: 1px solid var(--gold); background-repeat: no-repeat; 
+    display: none; z-index: 20; background-color: #000;
+}
+
+.price-detail { color: var(--gold); font-size: 2.2rem; font-family: 'Playfair Display'; margin: 15px 0; }
+.color-selector { display: flex; gap: 12px; margin-top: 10px; }
+.color-btn { width: 35px; height: 35px; border-radius: 50%; border: 2px solid #333; cursor: pointer; }
+.color-btn:hover { border-color: var(--gold); transform: scale(1.1); }
+.buy-btn { 
+    background: var(--gold); color: #000; padding: 18px; text-align: center; 
+    text-decoration: none; font-weight: bold; margin-top: auto; 
+}
 .close-btn { position: absolute; right: 20px; top: 10px; font-size: 40px; color: var(--gold); cursor: pointer; z-index: 1001; }
 
-@media (max-width: 850px) { .modal-grid { grid-template-columns: 1fr; } .zoom-result { display: none !important; } }
+@media (max-width: 850px) { 
+    .modal-grid { grid-template-columns: 1fr; overflow-y: auto; } 
+    .modal-content { height: auto; }
+}

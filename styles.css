@@ -1,48 +1,59 @@
-/* RESET GENERAL */
+/* CONFIGURACIÓN BASE */
+:root {
+    --gold: #D4AF37;
+    --dark: #0a0a0a;
+    --white: #ffffff;
+}
+
 body {
-    background-color: #0a0a0a; /* Negro profundo */
-    color: #ffffff;
+    background-color: var(--dark);
+    color: var(--white);
     font-family: 'Raleway', sans-serif;
     margin: 0;
     padding: 0;
 }
 
-h1 {
-    color: #D4AF37; /* Dorado Boutique */
+header {
     text-align: center;
-    font-family: 'Playfair Display', serif;
-    font-size: 3rem;
-    margin-top: 50px;
-    text-transform: uppercase;
-    letter-spacing: 5px;
+    padding: 50px 20px;
 }
 
-p.subtitle {
-    text-align: center;
-    color: #D4AF37;
+header h1 {
+    color: var(--gold);
+    font-family: 'Playfair Display', serif;
+    font-size: 3rem;
+    margin: 0;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+}
+
+header p {
+    color: var(--gold);
     letter-spacing: 2px;
     font-size: 0.9rem;
 }
 
-/* GRILLA DE PRODUCTOS */
-.container {
+/* CATÁLOGO (GRILLA) */
+#gallery {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 30px;
-    padding: 50px;
+    padding: 40px;
+    max-width: 1400px;
+    margin: 0 auto;
 }
 
-/* CARDS */
 .product-card {
     background: #050505;
     border: 1px solid #1a1a1a;
     padding: 15px;
     text-align: center;
-    transition: 0.4s;
+    transition: 0.3s;
+    cursor: pointer;
 }
 
 .product-card:hover {
-    border-color: #D4AF37;
+    border-color: var(--gold);
     transform: translateY(-5px);
 }
 
@@ -50,10 +61,19 @@ p.subtitle {
     width: 100%;
     height: 400px;
     object-fit: cover;
-    cursor: pointer;
 }
 
-/* ESTILOS DEL MODAL (El que arreglamos antes) */
+.product-card h3 {
+    font-size: 1.2rem;
+    margin: 15px 0 5px 0;
+}
+
+.product-card p {
+    color: var(--gold);
+    font-weight: bold;
+}
+
+/* MODAL Y LUPA */
 .modal {
     display: none;
     position: fixed;
@@ -64,12 +84,12 @@ p.subtitle {
 }
 
 .modal-content {
-    background: #0a0a0a;
+    background: var(--dark);
     margin: 3vh auto;
     width: 95%;
     max-width: 1100px;
     height: 85vh;
-    border: 1px solid #D4AF37;
+    border: 1px solid var(--gold);
     position: relative;
     overflow: hidden;
 }
@@ -88,19 +108,62 @@ p.subtitle {
     background: #000;
 }
 
+.zoom-wrapper {
+    position: relative;
+}
+
+.zoom-wrapper img {
+    max-width: 100%;
+    max-height: 80vh;
+    object-fit: contain;
+}
+
+.zoom-lens {
+    position: absolute;
+    border: 1px solid var(--gold);
+    width: 100px;
+    height: 100px;
+    background: rgba(212, 175, 55, 0.1);
+    display: none;
+    pointer-events: none;
+}
+
 .details-panel {
     width: 40%;
-    padding: 40px;
+    padding: 30px;
     display: flex;
     flex-direction: column;
     border-left: 1px solid #222;
+    box-sizing: border-box;
 }
 
 .zoom-result {
     width: 100%;
-    height: 250px;
-    border: 1px solid #D4AF37;
-    margin-top: auto;
+    flex-grow: 1;
+    max-height: 250px;
+    border: 1px solid var(--gold);
+    margin-top: 20px;
     background-repeat: no-repeat;
     display: none;
+    position: relative !important;
+}
+
+.close-btn {
+    position: absolute;
+    right: 20px; top: 10px;
+    font-size: 40px;
+    color: var(--gold);
+    cursor: pointer;
+    z-index: 1100;
+}
+
+.buy-btn {
+    display: block;
+    background: var(--gold);
+    color: #000;
+    padding: 15px;
+    text-align: center;
+    text-decoration: none;
+    font-weight: bold;
+    margin-top: 20px;
 }

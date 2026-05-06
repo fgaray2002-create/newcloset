@@ -61,13 +61,100 @@ async function loadInventory() {
     }
 }
 
-function openDetail(name, price, img, colors, sizes) {
+// Esta función ahora manejará el cambio de imagen por color
+function changeProductColor(imgUrl) {
+    const mainImg = document.getElementById('modalImg');
+    mainImg.style.opacity = '0'; // Efecto de transición suave
+    setTimeout(() => {
+        mainImg.src = imgUrl;
+        mainImg.style.opacity = '1';
+    }, 200);
+}
+
+function openDetail(name, price, img, colors, sizes, colorPhotosRaw) {
     document.getElementById('modalName').innerText = name;
     document.getElementById('modalPrice').innerText = price;
     document.getElementById('modalImg').src = img;
-    document.getElementById('modalColors').innerText = colors;
     document.getElementById('modalSizes').innerText = sizes;
+    
+    const colorContainer = document.getElementById('modalColors');
+    colorContainer.innerHTML = ''; // Limpiamos colores anteriores
+
+    if (colorPhotosRaw && colorPhotosRaw.includes('|')) {
+        // Separamos los colores y sus fotos: Rojo|link1, Azul|link2
+        const colorPairs = colorPhotosRaw.split(',');
+        
+        colorPairs.forEach(pair => {
+            const [colorName, driveUrl] = pair.split('|');
+            const cleanId = extractDriveId(driveUrl); // Usamos la misma lógica de limpieza de IDs
+            const directImg = `https://lh3.googleusercontent.com/u/0/d/${cleanId}`;
+
+            // Creamos un botoncito para cada color
+            const btn = document.createElement('button');
+            btn.className = 'color-btn';
+            btn.title = colorName;
+            btn.style.backgroundColor = getColorHex(colorName); // Función opcional para poner el color real
+            btn.onclick = () => changeProductColor(directImg);
+            
+            colorContainer.appendChild(btn);
+        });
+    } else {
+        colorContainer.innerText = colors; // Si no hay fotos, muestra el texto normal
+    }
+
     document.getElementById('productModal').style.display = "block";
 }
 
+// Esta función ahora manejará el cambio de imagen por color
+function changeProductColor(imgUrl) {
+    const mainImg = document.getElementById('modalImg');
+    mainImg.style.opacity = '0'; // Efecto de transición suave
+    setTimeout(() => {
+        mainImg.src = imgUrl;
+        mainImg.style.opacity = '1';
+    }, 200);
+}
+
+function openDetail(name, price, img, colors, sizes, colorPhotosRaw) {
+    document.getElementById('modalName').innerText = name;
+    document.getElementById('modalPrice').innerText = price;
+    document.getElementById('modalImg').src = img;
+    document.getElementById('modalSizes').innerText = sizes;
+    
+    const colorContainer = document.getElementById('modalColors');
+    colorContainer.innerHTML = ''; // Limpiamos colores anteriores
+
+    if (colorPhotosRaw && colorPhotosRaw.includes('|')) {
+        // Separamos los colores y sus fotos: Rojo|link1, Azul|link2
+        const colorPairs = colorPhotosRaw.split(',');
+        
+        colorPairs.forEach(pair => {
+            const [colorName, driveUrl] = pair.split('|');
+            const cleanId = extractDriveId(driveUrl); // Usamos la misma lógica de limpieza de IDs
+            const directImg = `https://lh3.googleusercontent.com/u/0/d/${cleanId}`;
+
+            // Creamos un botoncito para cada color
+            const btn = document.createElement('button');
+            btn.className = 'color-btn';
+            btn.title = colorName;
+            btn.style.backgroundColor = getColorHex(colorName); // Función opcional para poner el color real
+            btn.onclick = () => changeProductColor(directImg);
+            
+            colorContainer.appendChild(btn);
+        });
+    } else {
+        colorContainer.innerText = colors; // Si no hay fotos, muestra el texto normal
+    }
+
+    document.getElementById('productModal').style.display = "block";
+}
+
+// Función auxiliar para limpiar IDs de Drive (agrega esta arriba de todo)
+function extractDriveId(url) {
+    if (!url) return '';
+    let id = "";
+    if (url.includes('id=')) id = url.split('id=')[1].split('&')[0];
+    else if (url.includes('/d/')) id = url.split('/d/')[1].split('/')[0];
+    return id.replace(/['"]+/g, '').trim();
+}
 loadInventory();

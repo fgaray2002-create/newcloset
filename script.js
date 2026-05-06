@@ -1,115 +1,119 @@
 const CSV_URL = 'https://docs.google.com/spreadsheets/d/1-K--QwKKTzi5nQRQjKQyP88YfDpJBz4ShFMfz_gM0Fk/export?format=csv&gid=0';
 
-const COLOR_MAP = {
-    'negro': '#000000',
-    'blanco': '#ffffff',
-    'dorado': '#D4AF37',
-    'rojo': '#8B0000',
-    'azul': '#000080',
-    'rosa': '#FFC0CB',
-    'verde': '#2E8B57',
-    'beige': '#F5F5DC',
-    'gris': '#808080',
-    'celeste': '#87CEEB'
-};
+const COLOR_MAP = { 'negro': '#000', 'blanco': '#fff', 'dorado': '#D4AF37', 'rojo': '#8B0000', 'rosa': '#FFC0CB', 'beige': '#F5F5DC' };
 
 async function loadInventory() {
-    try {
-        const response = await fetch(CSV_URL);
-        const data = await response.text();
-        const rows = data.split('\n').slice(1);
-        const gallery = document.getElementById('gallery');
-        gallery.innerHTML = ''; 
+    const response = await fetch(CSV_URL);
+    const data = await response.text();
+    const rows = data.split('\n').slice(1);
+    const gallery = document.getElementById('gallery');
+    gallery.innerHTML = '';
 
-        rows.forEach(row => {
-            const columns = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
-            if(columns.length < 9) return;
+    rows.forEach(row => {
+        const cols = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
+        if(cols.length < 9) return;
+        const clean = (t) => t ? t.replace(/['"]+/g, '').trim() : '';
 
-            const clean = (text) => text ? text.replace(/['"]+/g, '').trim() : '';
+        const p = {
+            id: extractDriveId(clean(cols[8])),
+            nombre: clean(cols[4]),
+            precio: clean(cols[5]),
+            colores: clean(cols[6]),
+            talles: clean(cols[7]),
+            stock: clean(cols[9]).toUpperCase(),
+            fotosColores: cols[10] ? clean(cols[10]) : ''
+        };
 
-            const product = {
-                nombre: clean(columns[4]),
-                precio: clean(columns[5]),
-                coloresTxt: clean(columns[6]),
-                talles: clean(columns[7]),
-                imgPrincipal: extractDriveId(clean(columns[8])),
-                stock: clean(columns[9]).toUpperCase(),
-                fotosColores: columns[10] ? clean(columns[10]) : ''
-            };
-
-            if (product.nombre && product.imgPrincipal) {
-                const card = document.createElement('div');
-                card.className = 'product-card';
-                
-                const isOutOfStock = product.stock === 'N';
-                const stockLabel = isOutOfStock ? '<div class="out-of-stock">SIN STOCK</div>' : '';
-                const imgStyle = isOutOfStock ? 'style="opacity: 0.3; filter: grayscale(1);"' : '';
-                const thumb = `https://lh3.googleusercontent.com/u/0/d/${product.imgPrincipal}`;
-
-                card.innerHTML = `
-                    ${stockLabel}
-                    <img src="${thumb}" ${imgStyle} onclick="showDetail('${encodeURIComponent(JSON.stringify(product))}')">
-                    <div class="product-info">
-                        <h3 style="margin: 15px 0 5px; font-size: 1.1rem;">${product.nombre}</h3>
-                        <p style="color: var(--gold); font-weight: bold;">${product.precio}</p>
-                    </div>
-                `;
-                gallery.appendChild(card);
-            }
-        });
-    } catch (e) { console.error("Error cargando catálogo:", e); }
+        if (p.nombre && p.id) {
+            const card = document.createElement('div');
+            card.className = 'product-card';
+            const imgUrl = `https://lh3.googleusercontent.com/u/0/d/${p.id}`;
+            card.innerHTML = `
+                ${p.stock === 'N' ? '<div class="out-of-stock">AGOTADO</div>' : ''}
+                <img src="${imgUrl}" onclick="openProduct('${encodeURIComponent(JSON.stringify(p))}')">
+                <h3>${p.nombre}</h3>
+                <p style="color:var(--gold)">${p.precio}</p>
+            `;
+            gallery.appendChild(card);
+        }
+    });
 }
 
 function extractDriveId(url) {
     if (!url) return '';
-    let id = "";
-    if (url.includes('id=')) id = url.split('id=')[1].split('&')[0];
-    else if (url.includes('/d/')) id = url.split('/d/')[1].split('/')[0];
-    return id.trim();
+    const match = url.match(/[-\w]{25,}/);
+    return match ? match[0] : '';
 }
 
-function showDetail(encodedData) {
-    const p = JSON.parse(decodeURIComponent(encodedData));
+function openProduct(data) {
+    const p = JSON.parse(decodeURIComponent(data));
+    const modalImg = document.getElementById('modalImg');
+    const imgPath = `https://lh3.googleusercontent.com/u/0/d/${p.id}`;
+    
     document.getElementById('modalName').innerText = p.nombre;
     document.getElementById('modalPrice').innerText = p.precio;
     document.getElementById('modalSizes').innerText = p.talles;
+    modalImg.src = imgPath;
     
-    const mainImg = document.getElementById('modalImg');
-    mainImg.src = `https://lh3.googleusercontent.com/u/0/d/${p.imgPrincipal}`;
-    
-    const colorContainer = document.getElementById('modalColors');
-    colorContainer.innerHTML = '';
-
+    // Configurar Colores
+    const container = document.getElementById('modalColors');
+    container.innerHTML = '';
     if (p.fotosColores) {
-        const pairs = p.fotosColores.split(',');
-        pairs.forEach(pair => {
-            const [colorName, colorUrl] = pair.split('|');
-            if(!colorName || !colorUrl) return;
-
+        p.fotosColores.split(',').forEach(pair => {
+            const [name, url] = pair.split('|');
             const btn = document.createElement('div');
             btn.className = 'color-btn';
-            btn.title = colorName.trim();
-            btn.style.backgroundColor = COLOR_MAP[colorName.toLowerCase().trim()] || '#333';
-            
+            btn.style.backgroundColor = COLOR_MAP[name.toLowerCase().trim()] || '#333';
             btn.onclick = () => {
-                const newId = extractDriveId(colorUrl);
-                mainImg.style.opacity = '0';
-                setTimeout(() => {
-                    mainImg.src = `https://lh3.googleusercontent.com/u/0/d/${newId}`;
-                    mainImg.style.opacity = '1';
-                }, 250);
+                const newId = extractDriveId(url);
+                modalImg.src = `https://lh3.googleusercontent.com/u/0/d/${newId}`;
+                initZoom(); // Reiniciar lupa con nueva foto
             };
-            colorContainer.appendChild(btn);
+            container.appendChild(btn);
         });
-    } else {
-        colorContainer.innerText = p.coloresTxt;
     }
 
-    // Link de Whatsapp dinámico
-    const mensaje = `Hola! Me interesa el ${p.nombre} que vi en la web.`;
-    document.getElementById('btnWhatsapp').href = `https://wa.me/TUNUMEROAQUI?text=${encodeURIComponent(mensaje)}`;
-    
-    document.getElementById('productModal').style.display = "block";
+    document.getElementById('btnWhatsapp').href = `https://wa.me/TUNUMERO?text=Consulta: ${p.nombre}`;
+    document.getElementById('productModal').style.display = 'block';
+    setTimeout(initZoom, 500); // Dar tiempo a que cargue la imagen
 }
 
+function initZoom() {
+    const img = document.getElementById("modalImg");
+    const lens = document.getElementById("zoomLens");
+    const result = document.getElementById("zoomResult");
+    const wrapper = document.getElementById("zoomWrapper");
+
+    wrapper.onmousemove = (e) => {
+        lens.style.display = "block";
+        result.style.display = "block";
+        
+        const rect = wrapper.getBoundingClientRect();
+        let x = e.pageX - rect.left - window.pageXOffset - (lens.offsetWidth / 2);
+        let y = e.pageY - rect.top - window.pageYOffset - (lens.offsetHeight / 2);
+
+        // Limites
+        if (x > wrapper.offsetWidth - lens.offsetWidth) x = wrapper.offsetWidth - lens.offsetWidth;
+        if (x < 0) x = 0;
+        if (y > wrapper.offsetHeight - lens.offsetHeight) y = wrapper.offsetHeight - lens.offsetHeight;
+        if (y < 0) y = 0;
+
+        lens.style.left = x + "px";
+        lens.style.top = y + "px";
+
+        const cx = result.offsetWidth / lens.offsetWidth;
+        const cy = result.offsetHeight / lens.offsetHeight;
+
+        result.style.backgroundImage = `url('${img.src}')`;
+        result.style.backgroundSize = (img.width * cx) + "px " + (img.height * cy) + "px";
+        result.style.backgroundPosition = "-" + (x * cx) + "px -" + (y * cy) + "px";
+    };
+
+    wrapper.onmouseleave = () => {
+        lens.style.display = "none";
+        result.style.display = "none";
+    };
+}
+
+function closeModal() { document.getElementById('productModal').style.display = 'none'; }
 loadInventory();

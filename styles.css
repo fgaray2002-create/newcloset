@@ -113,3 +113,22 @@ body {
     border-left: 1px solid var(--gold);
     padding-left: 30px;
 }
+.color-btn {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 2px solid var(--gold);
+    margin-right: 10px;
+    cursor: pointer;
+    transition: transform 0.2s;
+    background-size: cover;
+}
+
+.color-btn:hover {
+    transform: scale(1.2);
+    box-shadow: 0 0 10px var(--gold);
+}
+
+#modalImg {
+    transition: opacity 0.3s ease-in-out;
+}

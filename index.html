@@ -17,43 +17,42 @@
     <div class="container" id="gallery"></div>
 
     <!-- Modal del Producto -->
-<div id="productModal" class="modal">
-    <div class="modal-content">
-        <span class="close-btn" onclick="closeModal()">&times;</span>
+    <div id="productModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal()">&times;</span>
         
-        <div class="modal-grid">
-            <!-- Columna Izquierda: Imagen con Lupa -->
-            <div class="image-section">
-                <div class="zoom-wrapper">
-                    <img id="modalImg" src="" alt="Producto">
-                    <div class="zoom-lens"></div>
+            <div class="modal-grid">
+                <!-- Columna Izquierda: Imagen con Lupa -->
+                <div class="image-section">
+                    <div class="zoom-wrapper">
+                        <img id="modalImg" src="" alt="Producto">
+                        <div class="zoom-lens"></div>
+                    </div>
                 </div>
-            </div>
 
-            <!-- Columna Derecha: Información y Zoom Fijo -->
-            <div class="details-panel">
-                <div class="product-info-box">
-                    <h2 id="modalName">Nombre del Producto</h2>
-                    <p id="modalPrice" class="price-detail">$0.00</p>
-                    <hr class="divider">
+                <!-- Columna Derecha: Información y Zoom Fijo -->
+                <div class="details-panel">
+                    <div class="product-info-box">
+                        <h2 id="modalName">Nombre del Producto</h2>
+                        <p id="modalPrice" class="price-detail">$0.00</p>
+                        <hr class="divider">
                     
-                    <div class="selection-group">
-                        <label>TALLES</label>
-                        <p id="modalSizes" class="sizes-text">S, M, L</p>
+                        <div class="selection-group">
+                            <label>TALLES</label>
+                            <p id="modalSizes" class="sizes-text">S, M, L</p>
+                        </div>
+
+                        <a id="btnWhatsapp" href="#" target="_blank" class="buy-btn">
+                            CONSULTAR DISPONIBILIDAD
+                        </a>
                     </div>
 
-                    <a id="btnWhatsapp" href="#" target="_blank" class="buy-btn">
-                        CONSULTAR DISPONIBILIDAD
-                    </a>
+                    <!-- El cuadro de detalle aparecerá aquí abajo -->
+                    <div id="zoomResult" class="zoom-result"></div>
                 </div>
-
-                <!-- El cuadro de detalle aparecerá aquí abajo -->
-                <div id="zoomResult" class="zoom-result"></div>
             </div>
         </div>
-    </div>
-</div>    </div>
-
+    </div>    
     <script src="script.js"></script>
 </body>
 </html>

@@ -9,36 +9,35 @@
 </head>
 <body>
 
-    <header>
-        <h1>BOUTIQUE ELEGANCE</h1>
-        <p>ALTA COSTURA & PEDIDOS EXCLUSIVOS</p>
-    </header>
+   <header>
+    <h1>BOUTIQUE ELEGANCE</h1>
+    <p>ALTA COSTURA</p>
+</header>
 
-    <main id="gallery" class="container"></main>
+<main id="gallery" class="container"></main>
 
-    <div id="productModal" class="modal">
-        <div class="modal-content">
-            <span class="close-btn" onclick="closeModal()">&times;</span>
-            <div class="modal-grid">
-                <div class="image-section">
-                    <div class="zoom-wrapper">
-                        <img id="modalImg" src="" alt="Vestido">
-                        <div class="zoom-lens"></div>
-                    </div>
+<div id="productModal" class="modal">
+    <div class="modal-content">
+        <span class="close-btn" onclick="closeModal()">&times;</span>
+        <div class="modal-grid">
+            <div class="image-section">
+                <div class="zoom-wrapper">
+                    <img id="modalImg" src="">
+                    <div class="zoom-lens"></div>
                 </div>
-                <div class="details-panel">
-                    <div class="product-info-box">
-                        <h2 id="modalName"></h2>
-                        <p id="modalPrice" class="price-detail"></p>
-                        <hr style="border:0; border-top:1px solid #222; margin:20px 0;">
-                        <p id="modalSizes" style="color:#D4AF37;"></p>
-                        <a id="btnWhatsapp" href="#" target="_blank" class="buy-btn">CONSULTAR WHATSAPP</a>
-                    </div>
-                    <div id="zoomResult" class="zoom-result"></div>
+            </div>
+            <div class="details-panel">
+                <div class="product-info-box">
+                    <h2 id="modalName"></h2>
+                    <p id="modalPrice" class="price-detail"></p>
+                    <p id="modalSizes"></p>
+                    <a id="btnWhatsapp" href="#" target="_blank" class="buy-btn">WHATSAPP</a>
                 </div>
+                <div id="zoomResult" class="zoom-result"></div>
             </div>
         </div>
     </div>
+</div>
 
     <script src="script.js"></script>
 </body>

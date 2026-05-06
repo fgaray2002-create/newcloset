@@ -1,5 +1,5 @@
 // 1. CONFIGURACIÓN DEL CATÁLOGO
-const SHEET_ID = '2PACX-1vR18lDn6kt3Os6Dk3GoQ8BxNdRTptmV18Ax_6L76wNzYVU7TwQ-jfpPulir6M92LcN15sNKg0wORg79'; // <--- PEGA TU ID ACÁ ENTRE LAS COMILLAS
+const SHEET_ID = '1-K--QwKKTzi5nQRQjKQyP88YfDpJBz4ShFMfz_gM0Fk'; // <--- PEGA TU ID ACÁ ENTRE LAS COMILLAS
 
 // Usamos concatenación simple (+) para evitar el error de "template expression"
 const CSV_URL = 'https://docs.google.com/spreadsheets/d/' + SHEET_ID + '/export?format=csv';

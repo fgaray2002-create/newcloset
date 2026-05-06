@@ -16,46 +16,43 @@
 
     <div class="container" id="gallery"></div>
 
-    <div id="productModal" class="modal">
-        <div class="modal-content">
-            <span class="close-btn" onclick="closeModal()">&times;</span>
-            
-            <div class="modal-grid">
-                <!-- Lado Izquierdo: Imagen con Zoom -->
-                <div class="image-section">
-                    <div class="zoom-wrapper" id="zoomWrapper">
-                        <img id="modalImg" src="" alt="Prenda">
-                        <div id="zoomLens" class="zoom-lens"></div>
-                    </div>
+    <!-- Modal del Producto -->
+<div id="productModal" class="modal">
+    <div class="modal-content">
+        <span class="close-btn" onclick="closeModal()">&times;</span>
+        
+        <div class="modal-grid">
+            <!-- Columna Izquierda: Imagen con Lupa -->
+            <div class="image-section">
+                <div class="zoom-wrapper">
+                    <img id="modalImg" src="" alt="Producto">
+                    <div class="zoom-lens"></div>
                 </div>
-                
-                <!-- Lado Derecho: Detalles y Resultado Zoom -->
-                <div class="details-panel">
+            </div>
+
+            <!-- Columna Derecha: Información y Zoom Fijo -->
+            <div class="details-panel">
+                <div class="product-info-box">
+                    <h2 id="modalName">Nombre del Producto</h2>
+                    <p id="modalPrice" class="price-detail">$0.00</p>
+                    <hr class="divider">
                     
-                    <div class="product-info-box">
-                        <h2 id="modalName"></h2>
-                        <p id="modalPrice" class="price-detail"></p>
-                        <hr class="divider">
-                        
-                        <div class="selection-group">
-                            <label>COLORES DISPONIBLES</label>
-                            <div id="modalColors" class="color-selector"></div>
-                        </div>
-
-                        <div class="selection-group">
-                            <label>TALLES</label>
-                            <p id="modalSizes" class="sizes-text"></p>
-                        </div>
-
-                        <a id="btnWhatsapp" href="#" target="_blank" class="buy-btn">CONSULTAR DISPONIBILIDAD</a>
+                    <div class="selection-group">
+                        <label>TALLES</label>
+                        <p id="modalSizes" class="sizes-text">S, M, L</p>
                     </div>
 
-                    
-                    <div id="zoomResult" class="zoom-result"></div>
+                    <a id="btnWhatsapp" href="#" target="_blank" class="buy-btn">
+                        CONSULTAR DISPONIBILIDAD
+                    </a>
                 </div>
+
+                <!-- El cuadro de detalle aparecerá aquí abajo -->
+                <div id="zoomResult" class="zoom-result"></div>
             </div>
         </div>
     </div>
+</div>    </div>
 
     <script src="script.js"></script>
 </body>

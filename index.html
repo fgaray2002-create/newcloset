@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Boutique Elegance | Catálogo Exclusivo</title>
+    <title>Boutique Elegance | Catálogo</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Raleway:wght@300;400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
@@ -14,38 +14,42 @@
         <p class="subtitle">ALTA COSTURA & PEDIDOS EXCLUSIVOS</p>
     </div>
 
-    <div class="container" id="gallery">
-        <!-- Los productos se cargan dinámicamente aquí -->
-    </div>
+    <div class="container" id="gallery"></div>
 
-    <!-- Modal de Detalle de Producto -->
     <div id="productModal" class="modal">
         <div class="modal-content">
-            <span class="close-btn" onclick="document.getElementById('productModal').style.display='none'">&times;</span>
+            <span class="close-btn" onclick="closeModal()">&times;</span>
             
             <div class="modal-grid">
-                <div class="zoom-container">
-                    <img id="modalImg" src="" alt="Vista de prenda">
+                <!-- Lado Izquierdo: Imagen con Zoom -->
+                <div class="image-section">
+                    <div class="zoom-wrapper" id="zoomWrapper">
+                        <img id="modalImg" src="" alt="Prenda">
+                        <div id="zoomLens" class="zoom-lens"></div>
+                    </div>
                 </div>
                 
+                <!-- Lado Derecho: Detalles y Resultado Zoom -->
                 <div class="details-panel">
-                    <h2 id="modalName"></h2>
-                    <p id="modalPrice" class="price-detail"></p>
-                    <hr class="divider">
+                    <div id="zoomResult" class="zoom-result"></div>
                     
-                    <div class="selection-group">
-                        <label>COLORES DISPONIBLES</label>
-                        <div id="modalColors" class="color-selector"></div>
-                    </div>
+                    <div class="product-info-box">
+                        <h2 id="modalName"></h2>
+                        <p id="modalPrice" class="price-detail"></p>
+                        <hr class="divider">
+                        
+                        <div class="selection-group">
+                            <label>COLORES DISPONIBLES</label>
+                            <div id="modalColors" class="color-selector"></div>
+                        </div>
 
-                    <div class="selection-group">
-                        <label>TALLES</label>
-                        <p id="modalSizes" class="sizes-text"></p>
-                    </div>
+                        <div class="selection-group">
+                            <label>TALLES</label>
+                            <p id="modalSizes" class="sizes-text"></p>
+                        </div>
 
-                    <a id="btnWhatsapp" href="#" target="_blank" class="buy-btn">
-                        SOLICITAR POR WHATSAPP
-                    </a>
+                        <a id="btnWhatsapp" href="#" target="_blank" class="buy-btn">CONSULTAR DISPONIBILIDAD</a>
+                    </div>
                 </div>
             </div>
         </div>

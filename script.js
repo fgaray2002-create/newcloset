@@ -1,51 +1,43 @@
-// =========================================
-// CONFIGURACIÓN DEL CATÁLOGO - BOUTIQUE ELEGANCE
-// =========================================
-
+// CONFIGURACIÓN
 const SHEET_ID = '1-K--QwKKTzi5nQRQjKQyP88YfDpJBz4ShFMfz_gM0Fk'; 
 const CSV_URL = 'https://docs.google.com/spreadsheets/d/' + SHEET_ID + '/export?format=csv';
 
-/**
- * 1. CARGA DE PRODUCTOS DESDE GOOGLE SHEETS
- */
+// CARGA DEL CATÁLOGO
 async function loadCatalog() {
     const gallery = document.getElementById('gallery');
     try {
         const response = await fetch(CSV_URL);
-        if (!response.ok) throw new Error("No se pudo conectar con la planilla");
+        if (!response.ok) throw new Error("No se pudo leer la planilla");
         
         const data = await response.text();
-        const rows = data.split('\n').slice(1); 
-        
-        gallery.innerHTML = ''; 
+        const rows = data.split('\n').slice(1);
+        gallery.innerHTML = '';
 
         rows.forEach(row => {
-            const columns = row.split(','); 
+            const columns = row.split(',');
             if (columns.length < 3) return;
 
             const name = columns[0].trim();
             const price = columns[1].trim();
             const imgUrl = columns[2].trim();
-            const sizes = columns[3] ? columns[3].trim() : 'Consultar talles';
+            const sizes = columns[3] ? columns[3].trim() : '';
 
             const card = document.createElement('div');
             card.className = 'product-card';
-            card.onclick = function() { openModal(name, price, imgUrl, sizes); };
-            card.innerHTML = 
-                '<img src="' + imgUrl + '" alt="' + name + '">' +
-                '<h3>' + name + '</h3>' +
-                '<p>' + price + '</p>';
+            card.onclick = () => openModal(name, price, imgUrl, sizes);
+            card.innerHTML = `
+                <img src="${imgUrl}" alt="${name}">
+                <h3>${name}</h3>
+                <p>${price}</p>
+            `;
             gallery.appendChild(card);
         });
     } catch (error) {
-        gallery.innerHTML = '<p style="color:#D4AF37; text-align:center; padding: 50px;">Error cargando catálogo. Asegurate de que la planilla esté "Publicada en la Web".</p>';
-        console.error(error);
+        gallery.innerHTML = '<p style="color:#D4AF37; text-align:center;">Error al cargar catálogo.</p>';
     }
 }
 
-/**
- * 2. LÓGICA DE LA LUPA (ZOOM)
- */
+// LUPA
 function setupZoom() {
     const img = document.getElementById('modalImg');
     const lens = document.querySelector('.zoom-lens');
@@ -54,7 +46,7 @@ function setupZoom() {
 
     if (!img || !lens || !result) return;
 
-    container.onmousemove = function(e) {
+    container.onmousemove = (e) => {
         const rect = img.getBoundingClientRect();
         lens.style.display = "block";
         result.style.display = "block";
@@ -81,23 +73,19 @@ function setupZoom() {
         result.style.backgroundPosition = "-" + (x * cx) + "px -" + (y * cy) + "px";
     };
 
-    container.onmouseleave = function() {
+    container.onmouseleave = () => {
         lens.style.display = "none";
         result.style.display = "none";
     };
 }
 
-/**
- * 3. MODAL (ABRIR Y CERRAR)
- */
 function openModal(name, price, imgSrc, sizes) {
     document.getElementById('modalName').innerText = name;
     document.getElementById('modalPrice').innerText = price;
     document.getElementById('modalImg').src = imgSrc;
-    document.getElementById('modalSizes').innerText = sizes;
+    document.getElementById('modalSizes').innerText = "Talles: " + sizes;
     
-    // Cambiá el número por el tuyo (con código de país sin el +)
-    const msg = encodeURIComponent("Hola Boutique Elegance, consulto por: " + name);
+    const msg = encodeURIComponent("Hola, consulto por el diseño: " + name);
     document.getElementById('btnWhatsapp').href = "https://wa.me/5491100000000?text=" + msg;
 
     document.getElementById('productModal').style.display = 'block';
@@ -108,8 +96,4 @@ function closeModal() {
     document.getElementById('productModal').style.display = 'none';
 }
 
-// Inicialización
 window.onload = loadCatalog;
-window.onclick = function(e) {
-    if (e.target == document.getElementById('productModal')) closeModal();
-};

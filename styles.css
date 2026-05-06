@@ -1,11 +1,66 @@
-/* --- BASE DEL MODAL --- */
+/* RESET GENERAL */
+body {
+    background-color: #0a0a0a; /* Negro profundo */
+    color: #ffffff;
+    font-family: 'Raleway', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+h1 {
+    color: #D4AF37; /* Dorado Boutique */
+    text-align: center;
+    font-family: 'Playfair Display', serif;
+    font-size: 3rem;
+    margin-top: 50px;
+    text-transform: uppercase;
+    letter-spacing: 5px;
+}
+
+p.subtitle {
+    text-align: center;
+    color: #D4AF37;
+    letter-spacing: 2px;
+    font-size: 0.9rem;
+}
+
+/* GRILLA DE PRODUCTOS */
+.container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 30px;
+    padding: 50px;
+}
+
+/* CARDS */
+.product-card {
+    background: #050505;
+    border: 1px solid #1a1a1a;
+    padding: 15px;
+    text-align: center;
+    transition: 0.4s;
+}
+
+.product-card:hover {
+    border-color: #D4AF37;
+    transform: translateY(-5px);
+}
+
+.product-card img {
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+    cursor: pointer;
+}
+
+/* ESTILOS DEL MODAL (El que arreglamos antes) */
 .modal {
     display: none;
     position: fixed;
     z-index: 1000;
     left: 0; top: 0;
     width: 100%; height: 100%;
-    background: rgba(0,0,0,0.9);
+    background: rgba(0,0,0,0.95);
 }
 
 .modal-content {
@@ -24,7 +79,6 @@
     height: 100%;
 }
 
-/* --- LADO IZQUIERDO (FOTO) --- */
 .image-section {
     width: 60%;
     height: 100%;
@@ -32,87 +86,21 @@
     align-items: center;
     justify-content: center;
     background: #000;
-    position: relative;
 }
 
-.zoom-wrapper {
-    position: relative;
-    cursor: crosshair;
-}
-
-.zoom-wrapper img {
-    max-width: 100%;
-    max-height: 80vh;
-    object-fit: contain;
-}
-
-.zoom-lens {
-    position: absolute;
-    border: 1px solid #D4AF37;
-    width: 100px;
-    height: 100px;
-    background: rgba(212, 175, 55, 0.1);
-    display: none;
-    pointer-events: none;
-}
-
-/* --- LADO DERECHO (INFO) --- */
 .details-panel {
     width: 40%;
-    height: 100%;
+    padding: 40px;
     display: flex;
     flex-direction: column;
-    padding: 30px;
-    background: #0a0a0a;
     border-left: 1px solid #222;
-    box-sizing: border-box;
 }
 
-.product-info-box {
-    flex-shrink: 0;
-}
-
-.price-detail {
-    color: #D4AF37;
-    font-size: 2rem;
-    margin: 15px 0;
-    font-weight: bold;
-}
-
-.buy-btn {
-    display: block;
-    background: #D4AF37;
-    color: #000;
-    padding: 15px;
-    text-align: center;
-    text-decoration: none;
-    font-weight: bold;
-    margin-top: 20px;
-    transition: 0.3s;
-}
-
-.buy-btn:hover {
-    background: #fff;
-}
-
-/* --- EL ZOOM RESULT (FIJO ABAJO) --- */
 .zoom-result {
     width: 100%;
-    flex-grow: 1; 
-    max-height: 280px;
-    border: 2px solid #D4AF37;
-    margin-top: 20px;
-    background-color: #000;
+    height: 250px;
+    border: 1px solid #D4AF37;
+    margin-top: auto;
     background-repeat: no-repeat;
     display: none;
-    position: relative !important; /* IMPORTANTE: Para que no se mueva */
-}
-
-.close-btn {
-    position: absolute;
-    right: 20px; top: 10px;
-    font-size: 35px;
-    color: #D4AF37;
-    cursor: pointer;
-    z-index: 101;
 }

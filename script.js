@@ -12,42 +12,33 @@ async function loadInventory() {
 
         rows.forEach(row => {
             const columns = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
-            if(columns.length < 9) return;
+            if(columns.length < 10) return; // Ahora verificamos que llegue hasta la columna K
 
             const clean = (text) => text ? text.replace(/['"]+/g, '').trim() : '';
 
-            // Extracción robusta del ID de la imagen de Google Drive
-            let rawImg = clean(columns[8]);
-            let imgId = "";
-            
-            if (rawImg.includes('id=')) {
-                imgId = rawImg.split('id=')[1].split('&')[0];
-            } else if (rawImg.includes('/d/')) {
-                imgId = rawImg.split('/d/')[1].split('/')[0];
-            }
-
             const product = {
-                nombre: clean(columns[4]), // Nombre de la prenda como "Vestido Ana"
-                precio: clean(columns[5]), // Precios como "$25,000.00"
-                colores: clean(columns[6]),
+                nombre: clean(columns[4]),
+                precio: clean(columns[5]),
+                coloresTexto: clean(columns[6]),
                 talles: clean(columns[7]),
-                img: imgId ? `https://lh3.googleusercontent.com/u/0/d/${imgId}` : '',
-                stock: clean(columns[9]).toUpperCase()
+                imgPrincipal: extractDriveId(clean(columns[8])),
+                stock: clean(columns[9]).toUpperCase(),
+                fotosColores: clean(columns[10]) // AQUÍ: La nueva columna K
             };
 
-            if (product.nombre && product.img) {
+            if (product.nombre && product.imgPrincipal) {
                 const card = document.createElement('div');
                 card.className = 'product-card';
                 
                 const isOutOfStock = product.stock === 'N';
                 const stockStatus = isOutOfStock ? '<div class="out-of-stock">SIN STOCK</div>' : '';
-                const imgStyle = isOutOfStock ? 'style="opacity: 0.4; filter: grayscale(1);"' : '';
+                
+                // Usamos la URL de la foto principal para la galería
+                const thumbUrl = `https://lh3.googleusercontent.com/u/0/d/${product.imgPrincipal}`;
 
                 card.innerHTML = `
                     ${stockStatus}
-                    <img src="${product.img}" ${imgStyle} 
-                         onclick="openDetail('${product.nombre}', '${product.precio}', '${product.img}', '${product.colores}', '${product.talles}')"
-                         onerror="this.src='https://via.placeholder.com/400x600?text=Cargando+Imagen...'">
+                    <img src="${thumbUrl}" onclick="openDetail('${product.nombre}', '${product.precio}', '${thumbUrl}', '${product.coloresTexto}', '${product.talles}', '${product.fotosColores}')">
                     <div class="product-info">
                         <h3>${product.nombre}</h3>
                         <p class="price">${product.precio}</p>

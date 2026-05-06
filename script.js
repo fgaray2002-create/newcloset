@@ -84,36 +84,35 @@ function initZoom() {
     const result = document.getElementById("zoomResult");
     const wrapper = document.getElementById("zoomWrapper");
 
+    // Solo activamos la lupa si la imagen ya cargó
+    if (!img.complete) return;
+
     wrapper.onmousemove = (e) => {
         lens.style.display = "block";
         result.style.display = "block";
         
-        const rect = wrapper.getBoundingClientRect();
-        let x = e.pageX - rect.left - window.pageXOffset - (lens.offsetWidth / 2);
-        let y = e.pageY - rect.top - window.pageYOffset - (lens.offsetHeight / 2);
+        const rect = img.getBoundingClientRect(); // Usamos los límites de la imagen, no del wrapper
+        const wrapRect = wrapper.getBoundingClientRect();
 
-        // Limites
-        if (x > wrapper.offsetWidth - lens.offsetWidth) x = wrapper.offsetWidth - lens.offsetWidth;
+        let x = e.clientX - rect.left - (lens.offsetWidth / 2);
+        let y = e.clientY - rect.top - (lens.offsetHeight / 2);
+
+        // Límites para que la lupa no se salga de la foto
+        if (x > rect.width - lens.offsetWidth) x = rect.width - lens.offsetWidth;
         if (x < 0) x = 0;
-        if (y > wrapper.offsetHeight - lens.offsetHeight) y = wrapper.offsetHeight - lens.offsetHeight;
+        if (y > rect.height - lens.offsetHeight) y = rect.height - lens.offsetHeight;
         if (y < 0) y = 0;
 
-        lens.style.left = x + "px";
-        lens.style.top = y + "px";
+        lens.style.left = (x + (rect.left - wrapRect.left)) + "px";
+        lens.style.top = (y + (rect.top - wrapRect.top)) + "px";
 
         const cx = result.offsetWidth / lens.offsetWidth;
         const cy = result.offsetHeight / lens.offsetHeight;
 
         result.style.backgroundImage = `url('${img.src}')`;
-        result.style.backgroundSize = (img.width * cx) + "px " + (img.height * cy) + "px";
+        result.style.backgroundSize = (rect.width * cx) + "px " + (rect.height * cy) + "px";
         result.style.backgroundPosition = "-" + (x * cx) + "px -" + (y * cy) + "px";
     };
-
-    wrapper.onmouseleave = () => {
-        lens.style.display = "none";
-        result.style.display = "none";
-    };
 }
-
 function closeModal() { document.getElementById('productModal').style.display = 'none'; }
 loadInventory();

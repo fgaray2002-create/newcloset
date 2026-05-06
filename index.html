@@ -2,37 +2,51 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Boutique Elegance - Pedidos por Drive</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Boutique Elegance | Catálogo Exclusivo</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Raleway:wght@300;400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
     <div class="header">
-        <h1>Boutique Elegance</h1>
-        <p>Alta Costura · Pedidos Exclusivos</p>
+        <h1>BOUTIQUE ELEGANCE</h1>
+        <p class="subtitle">ALTA COSTURA & PEDIDOS EXCLUSIVOS</p>
     </div>
 
     <div class="container" id="gallery">
-        <!-- Los productos se cargan aquí desde el Drive -->
+        <!-- Los productos se cargan dinámicamente aquí -->
     </div>
 
-    <!-- Modal para Detalle de Producto -->
+    <!-- Modal de Detalle de Producto -->
     <div id="productModal" class="modal">
         <div class="modal-content">
-            <div class="zoom-container" id="zoomArea">
-                <img id="modalImg" src="" alt="">
-            </div>
-            <div class="details-panel">
-                <span onclick="document.getElementById('productModal').style.display='none'" style="cursor:pointer; color:var(--gold); float:right;">CERRAR X</span>
-                <h2 id="modalName" style="color:var(--gold)"></h2>
-                <p id="modalPrice" class="price"></p>
-                <hr style="border: 0.5px solid #333;">
-                <p><strong>Colores disponibles:</strong> <span id="modalColors"></span></p>
-                <p><strong>Talles:</strong> <span id="modalSizes"></span></p>
-                <button style="background:var(--gold); color:black; padding:15px 30px; border:none; cursor:pointer; font-weight:bold; margin-top:20px;">
-                    CONSULTAR POR WHATSAPP
-                </button>
+            <span class="close-btn" onclick="document.getElementById('productModal').style.display='none'">&times;</span>
+            
+            <div class="modal-grid">
+                <div class="zoom-container">
+                    <img id="modalImg" src="" alt="Vista de prenda">
+                </div>
+                
+                <div class="details-panel">
+                    <h2 id="modalName"></h2>
+                    <p id="modalPrice" class="price-detail"></p>
+                    <hr class="divider">
+                    
+                    <div class="selection-group">
+                        <label>COLORES DISPONIBLES</label>
+                        <div id="modalColors" class="color-selector"></div>
+                    </div>
+
+                    <div class="selection-group">
+                        <label>TALLES</label>
+                        <p id="modalSizes" class="sizes-text"></p>
+                    </div>
+
+                    <a id="btnWhatsapp" href="#" target="_blank" class="buy-btn">
+                        SOLICITAR POR WHATSAPP
+                    </a>
+                </div>
             </div>
         </div>
     </div>

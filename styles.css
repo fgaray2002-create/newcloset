@@ -1,10 +1,9 @@
 /* =========================================
-   CONFIGURACIÓN GENERAL Y VARIABLES
+   CONFIGURACIÓN GENERAL
    ========================================= */
 :root {
     --gold: #D4AF37;
     --dark: #0a0a0a;
-    --gray: #1a1a1a;
     --white: #ffffff;
 }
 
@@ -13,12 +12,9 @@ body {
     color: var(--white);
     font-family: 'Raleway', sans-serif;
     margin: 0;
-    overflow-x: hidden;
 }
 
-/* =========================================
-   GALERÍA PRINCIPAL (GRILLA)
-   ========================================= */
+/* GALERÍA PRINCIPAL */
 .container {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -31,7 +27,6 @@ body {
     padding: 15px;
     text-align: center;
     transition: 0.3s;
-    position: relative;
     background: #050505;
 }
 
@@ -46,22 +41,8 @@ body {
     cursor: pointer;
 }
 
-.out-of-stock {
-    position: absolute;
-    top: 45%;
-    left: 0;
-    width: 100%;
-    background: rgba(0,0,0,0.85);
-    color: var(--gold);
-    padding: 10px 0;
-    font-weight: bold;
-    z-index: 5;
-    border-top: 1px solid var(--gold);
-    border-bottom: 1px solid var(--gold);
-}
-
 /* =========================================
-   MODAL DE DETALLE (ESTILO BOUTIQUE)
+   MODAL ESTRUCTURADO (DOS COLUMNAS FIJAS)
    ========================================= */
 .modal {
     display: none;
@@ -77,30 +58,29 @@ body {
 .modal-content {
     background: var(--dark);
     margin: 3vh auto;
-    width: 90%;
+    width: 95%;
     max-width: 1100px;
-    height: 85vh; /* Altura fija para evitar que se deforme */
+    height: 85vh;
     border: 1px solid var(--gold);
     position: relative;
     overflow: hidden;
 }
 
-/* Estructura de dos columnas */
 .modal-grid {
     display: flex;
     height: 100%;
     width: 100%;
 }
 
-/* --- COLUMNA IZQUIERDA (IMAGEN) --- */
+/* --- COLUMNA IZQUIERDA: IMAGEN --- */
 .image-section {
     width: 60%;
     height: 100%;
-    background: #000;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 30px;
+    background: #000;
+    padding: 20px;
     box-sizing: border-box;
     position: relative;
 }
@@ -115,165 +95,102 @@ body {
     cursor: crosshair;
 }
 
-/* Encuadre de la prenda */
 .zoom-wrapper img {
     max-width: 100%;
     max-height: 100%;
-    width: auto;
-    height: auto;
     object-fit: contain;
-    box-shadow: 0 0 30px rgba(0,0,0,0.7);
 }
 
-/* El recuadro donde se ve el aumento ahora abajo */
-.zoom-result { 
-    position: absolute; 
-    bottom: 0; /* Lo movemos al fondo del panel */
-    left: 0; 
-    width: 100%; 
-    height: 40%; /* Ocupa el 40% inferior del panel de detalles */
-    background-color: #000;
-    background-repeat: no-repeat;
-    z-index: 150; 
-    border-top: 2px solid var(--gold); /* Línea dorada arriba para separar */
-    display: none; 
-}}
+.zoom-lens {
+    position: absolute;
+    border: 1px solid var(--gold);
+    width: 100px;
+    height: 100px;
+    background: rgba(212, 175, 55, 0.1);
+    z-index: 100;
+    display: none;
+    pointer-events: none;
+}
 
-/* --- COLUMNA DERECHA (TEXTO E INFO) --- */
+/* --- COLUMNA DERECHA: INFO Y ZOOM --- */
 .details-panel {
     width: 40%;
-    padding: 50px 35px;
+    height: 100%;
     display: flex;
     flex-direction: column;
+    padding: 30px;
     background: var(--dark);
     border-left: 1px solid #222;
-    overflow-y: auto;
-    position: relative;
+    box-sizing: border-box;
 }
 
-/* Cuadro donde se ve el aumento */
-.zoom-result {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 40%; /* Aparece en la parte superior del panel de info */
-    background-color: #000;
-    background-repeat: no-repeat;
-    z-index: 150;
-    border-bottom: 2px solid var(--gold);
-    display: none;
-}
-
-.modal-content h2 {
-    font-size: 2rem;
-    margin: 0;
-    color: var(--white);
+/* Contenedor de textos (Nombre, Precio, Botón) */
+.product-info-box {
+    flex: 1; /* Ocupa el espacio superior disponible */
+    display: flex;
+    flex-direction: column;
 }
 
 .price-detail {
     color: var(--gold);
     font-size: 2.2rem;
     font-family: 'Playfair Display', serif;
-    margin: 15px 0;
+    margin: 10px 0;
 }
 
-.divider {
-    border: 0;
-    border-top: 1px solid #333;
-    margin: 20px 0;
-}
-
-.selection-group {
-    margin-bottom: 25px;
-}
-
-.selection-group label {
-    font-size: 0.75rem;
-    letter-spacing: 2px;
-    color: var(--gold);
-    text-transform: uppercase;
-    display: block;
-    margin-bottom: 12px;
-}
-
-/* Selectores de color circulares */
 .color-selector {
     display: flex;
-    gap: 12px;
+    gap: 10px;
+    margin: 10px 0;
     flex-wrap: wrap;
 }
 
 .color-btn {
-    width: 32px;
-    height: 32px;
+    width: 30px;
+    height: 30px;
     border-radius: 50%;
-    border: 2px solid #333;
+    border: 1px solid #444;
     cursor: pointer;
-    transition: 0.3s;
 }
 
-.color-btn:hover {
-    border-color: var(--gold);
-    transform: scale(1.15);
-}
-
-.sizes-text {
-    font-size: 1.1rem;
-    letter-spacing: 1px;
-}
-
-/* Botón de Compra */
 .buy-btn {
     background: var(--gold);
     color: #000;
-    text-decoration: none;
-    padding: 18px;
+    padding: 15px;
     text-align: center;
+    text-decoration: none;
     font-weight: bold;
-    margin-top: auto;
+    margin-top: 15px;
     transition: 0.3s;
-    letter-spacing: 1px;
 }
 
-.buy-btn:hover {
-    background: var(--white);
+/* CUADRO DE ZOOM: FIJO ABAJO */
+.zoom-result {
+    width: 100%;
+    height: 220px; /* Tamaño controlado para que no tape nada */
+    border: 2px solid var(--gold);
+    background-color: #000;
+    background-repeat: no-repeat;
+    display: none; /* Se activa por JS */
+    margin-top: 20px;
+    box-shadow: 0 -5px 15px rgba(0,0,0,0.5);
 }
 
-/* Botón Cerrar */
+/* BOTÓN CERRAR */
 .close-btn {
     position: absolute;
-    right: 25px;
-    top: 15px;
-    font-size: 45px;
+    right: 20px;
+    top: 10px;
+    font-size: 40px;
     color: var(--gold);
     cursor: pointer;
     z-index: 1100;
-    line-height: 1;
 }
 
-/* =========================================
-   RESPONSIVE (PARA CELULARES)
-   ========================================= */
+/* RESPONSIVE */
 @media (max-width: 850px) {
-    .modal-grid {
-        flex-direction: column;
-    }
-    .modal-content {
-        height: auto;
-        overflow-y: auto;
-    }
-    .image-section, .details-panel {
-        width: 100%;
-    }
-    .image-section {
-        height: 400px;
-    }
-    .details-panel {
-        border-left: none;
-        border-top: 1px solid #222;
-    }
-    .zoom-result {
-        display: none !important; /* Desactivar lupa en móvil */
-    }
+    .modal-grid { flex-direction: column; }
+    .modal-content { height: 95vh; overflow-y: auto; }
+    .image-section, .details-panel { width: 100%; height: auto; }
+    .zoom-result { display: none !important; }
 }
